@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Header from "../pages/header";
 
@@ -10,7 +10,7 @@ const ProductDetails = () => {
   const [error, setError] = useState(null);
   const searchParams = useSearchParams();
   const productId = searchParams.get("id");
-  const router = useRouter(); 
+  const router = useRouter();
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
@@ -53,7 +53,6 @@ const ProductDetails = () => {
 
   return (
     <div>
-    
       <Header onFilterChange={() => {}} selectedCategory="All" cartCount={cart.length} />
       <div className="bg-gray-100 min-h-screen p-5 flex justify-center">
         {product ? (
@@ -68,11 +67,10 @@ const ProductDetails = () => {
             <p className="text-xl font-semibold mb-2">${product.price}</p>
             <p className="text-sm text-gray-500">Category: {product.category}</p>
 
-           
             <div className="flex items-center justify-between mt-4">
               <button
                 className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-                onClick={() => router.back()} 
+                onClick={() => router.back()}
               >
                 Back
               </button>
@@ -92,4 +90,10 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default function ProductDetailsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProductDetails />
+    </Suspense>
+  );
+}

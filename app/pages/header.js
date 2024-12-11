@@ -55,7 +55,7 @@ export default function Header({ onFilterChange, selectedCategory, cartCount }) 
 
     return (
         <div>
-            <header className="h-20 flex items-center justify-between px-10" style={{ backgroundColor: "#E7CCCC" }}>
+            <header className="h-20 flex items-center justify-between px-10" style={{ backgroundColor: "#BC7C7C" }}>
                 <div className="flex items-center space-x-6">
                     <div className="text-xl font-bold text-black hover:text-gray-600">
                         FakeStore
