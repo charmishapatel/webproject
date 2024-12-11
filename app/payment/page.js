@@ -1,12 +1,14 @@
 "use client";
+
 import { useState } from "react";
+import Header from "../pages/header";
 
 export default function Payment({ cart, total }) {
     const [cardNumber, setCardNumber] = useState("");
     const [expiryDate, setExpiryDate] = useState("");
     const [cvv, setCvv] = useState("");
     const [paymentSuccess, setPaymentSuccess] = useState(false);
-    
+
     const [errors, setErrors] = useState({
         cardNumber: "",
         expiryDate: "",
@@ -16,7 +18,7 @@ export default function Payment({ cart, total }) {
     
     const validateInputs = () => {
         const errors = {};
-        
+
         if (!cardNumber || cardNumber.length !== 16) {
             errors.cardNumber = "Card number must be 16 digits";
         }
@@ -39,7 +41,11 @@ export default function Payment({ cart, total }) {
         e.preventDefault();
 
         if (validateInputs()) {
+            
             setPaymentSuccess(true);
+
+            
+            localStorage.removeItem("cart");
         }
     };
 
@@ -54,7 +60,7 @@ export default function Payment({ cart, total }) {
                 <div className="max-w-md w-full">
                     <h1 className="text-3xl font-bold text-center mb-5">Payment Details</h1>
                     <form onSubmit={handlePayment} className="space-y-5">
-                        {/* Card Number */}
+                      
                         <div className="mb-4">
                             <label htmlFor="cardNumber" className="block text-lg font-medium">Card Number</label>
                             <input
@@ -68,7 +74,7 @@ export default function Payment({ cart, total }) {
                             {errors.cardNumber && <p className="text-red-500 text-sm mt-1">{errors.cardNumber}</p>}
                         </div>
 
-                        {/* Expiry Date */}
+                      
                         <div className="mb-4 flex">
                             <div className="mr-2 w-1/2">
                                 <label htmlFor="expiryDate" className="block text-lg font-medium">Expiry Date</label>
@@ -82,8 +88,6 @@ export default function Payment({ cart, total }) {
                                 />
                                 {errors.expiryDate && <p className="text-red-500 text-sm mt-1">{errors.expiryDate}</p>}
                             </div>
-
-                            {/* CVV */}
                             <div className="w-1/2">
                                 <label htmlFor="cvv" className="block text-lg font-medium">CVV</label>
                                 <input

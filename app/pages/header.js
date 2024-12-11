@@ -12,7 +12,7 @@ export default function Header({ onFilterChange, selectedCategory, cartCount }) 
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState(""); 
     const [products, setProducts] = useState([]); 
-    const [loading, setLoading] = useState(false); 
+    const [loading, setLoading] = useState(false);
 
     const filterOptions = ["All", "electronics", "jewelery", "men's clothing", "women's clothing"];
 
@@ -71,21 +71,18 @@ export default function Header({ onFilterChange, selectedCategory, cartCount }) 
                             <option key={option} value={option}>{option}</option>
                         ))}
                     </select>
-
                 </div>
 
                 <div className="flex items-center space-x-6">
-
-                    <form onSubmit={handleSearchSubmit} className="flex items-center border-9 border-gray-300 rounded-full px-2 py-1">
+                   
+                    <form onSubmit={handleSearchSubmit} className="flex items-center px-2 py-1">
                         <input
                             type="text"
                             value={searchQuery}
                             onChange={handleSearchChange}
                             placeholder="Search products..."
-                            className=" rounded outline-none p-2 w-40 text-black"
+                            className="rounded outline-none p-2 w-40 text-black"
                         />
-
-                        
                         <button type="submit" className="p-2">
                             <Image
                                 src={searchIcon}
@@ -97,6 +94,7 @@ export default function Header({ onFilterChange, selectedCategory, cartCount }) 
                         </button>
                     </form>
 
+                    
                     <Link href="/cart">
                         <div className="relative">
                             <Image
@@ -115,6 +113,7 @@ export default function Header({ onFilterChange, selectedCategory, cartCount }) 
                         </div>
                     </Link>
 
+                   
                     <Image
                         src={profileIcon}
                         alt="Profile"
@@ -126,7 +125,7 @@ export default function Header({ onFilterChange, selectedCategory, cartCount }) 
                     />
                 </div>
             </header>
-
+           
 
             {isDrawerOpen && (
                 <div className="fixed inset-0 z-50">

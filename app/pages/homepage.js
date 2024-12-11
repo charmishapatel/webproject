@@ -5,22 +5,29 @@ import Link from "next/link";
 import Header from "./header";
 
 export default function HomePage() {
-
-    
     const [sortOption, setSortOption] = useState("Price: Low to High");
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [cart, setCart] = useState([]);
+
     
+    useEffect(() => {
+        const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+        setCart(savedCart);
+    }, []);
+
     useEffect(() => {
         async function fetchProducts() {
             try {
                 setLoading(true);
                 const response = await fetch("https://fakestoreapi.com/products");
                 const data = await response.json();
-                
+
+              
                 let filteredData = data.filter(product => product.image && product.image.startsWith("http"));
+
+              
                 if (selectedCategory !== "All") {
                     filteredData = filteredData.filter(product => product.category === selectedCategory);
                 } else {
@@ -37,6 +44,12 @@ export default function HomePage() {
         fetchProducts();
     }, [selectedCategory]);
 
+    const clearCart = () => {
+        setCart([]);
+        localStorage.removeItem("cart");
+    };
+    
+
     const sortProducts = (option) => {
         setSortOption(option);
         const sorted = [...filteredProducts].sort((a, b) => {
@@ -52,11 +65,9 @@ export default function HomePage() {
     };
 
     const handleAddToCart = (product) => {
-        setCart(prevCart => {
-            const updatedCart = [...prevCart, { ...product, quantity: 1 }];
-            localStorage.setItem("cart", JSON.stringify(updatedCart));
-            return updatedCart;
-        });
+        const updatedCart = [...cart, { ...product, quantity: 1 }];
+        setCart(updatedCart);
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
     };
 
     const cartCount = cart.reduce((total, product) => total + product.quantity, 0);
@@ -113,13 +124,12 @@ export default function HomePage() {
                                 <h2 className="text-lg font-bold text-black">{product.title}</h2>
                                 <p className="text-gray-600 mt-2">${product.price}</p>
                                 <div className="mt-4 flex space-x-4">
-
-
-                                    <Link href={`/productDetails?id=${product.id}`}  className="flex-1 text-center text-white bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">
+                                    <Link
+                                        href={`/productDetails?id=${product.id}`}
+                                        className="flex-1 text-center text-white bg-blue-500 px-4 py-2 rounded hover:bg-blue-600"
+                                    >
                                         View Details
                                     </Link>
-
-                                    
                                     <button
                                         className="flex-1 text-center text-white bg-green-500 px-4 py-2 rounded hover:bg-green-600"
                                         onClick={() => handleAddToCart(product)}

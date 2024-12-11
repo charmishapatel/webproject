@@ -5,6 +5,7 @@ import Payment from "../payment/page";
 export default function Cart() {
     const [cart, setCart] = useState([]);
     const [isCheckout, setIsCheckout] = useState(false); 
+    
 
     useEffect(() => {
         const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -21,7 +22,7 @@ export default function Cart() {
         localStorage.setItem("cart", JSON.stringify(updatedCart));
     };
 
-   
+    
     const handleCheckout = () => {
         setIsCheckout(true); 
     };
